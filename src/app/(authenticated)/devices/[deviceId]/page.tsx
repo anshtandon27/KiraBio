@@ -114,7 +114,10 @@ export default function DeviceDetailsPage() {
         <Card>
           <Descriptions title="Device Specifications" bordered>
             <Descriptions.Item label="Name">{device.name}</Descriptions.Item>
-            <Descriptions.Item label="Category">
+            <Descriptions.Item
+              label="Category"
+              style={{ whiteSpace: 'nowrap' }}
+            >
               {device.category}
             </Descriptions.Item>
             <Descriptions.Item label="Condition">

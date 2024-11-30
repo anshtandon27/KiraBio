@@ -146,6 +146,7 @@ export default function AdminDashboardPage() {
       <Card style={{ marginTop: 24 }}>
         <Title level={4}>User Management</Title>
         <Table
+          bordered
           dataSource={users || []}
           columns={userColumns}
           rowKey="id"
@@ -156,6 +157,7 @@ export default function AdminDashboardPage() {
       <Card style={{ marginTop: 24 }}>
         <Title level={4}>Device Listings</Title>
         <Table
+          bordered
           dataSource={devices || []}
           columns={deviceColumns}
           rowKey="id"
@@ -166,6 +168,7 @@ export default function AdminDashboardPage() {
       <Card style={{ marginTop: 24 }}>
         <Title level={4}>Recall Notifications</Title>
         <Table
+          bordered
           dataSource={recalls || []}
           columns={recallColumns}
           rowKey="id"

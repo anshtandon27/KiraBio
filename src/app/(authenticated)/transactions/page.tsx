@@ -135,6 +135,7 @@ export default function TransactionsPage() {
       label: 'All Transactions',
       children: (
         <Table
+          bordered
           dataSource={transactions}
           columns={columns}
           loading={isLoading}
@@ -148,6 +149,7 @@ export default function TransactionsPage() {
       label: 'Sales',
       children: (
         <Table
+          bordered
           dataSource={filterTransactions('Sale')}
           columns={columns}
           loading={isLoading}
@@ -161,6 +163,7 @@ export default function TransactionsPage() {
       label: 'Rentals',
       children: (
         <Table
+          bordered
           dataSource={filterTransactions('Rent')}
           columns={columns}
           loading={isLoading}

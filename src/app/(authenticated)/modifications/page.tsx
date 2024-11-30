@@ -7,7 +7,6 @@ import { CheckOutlined, HistoryOutlined, PlusOutlined } from '@ant-design/icons'
 import { Prisma } from '@prisma/client'
 import {
   Button,
-  Card,
   Form,
   Input,
   Modal,
@@ -98,16 +97,19 @@ export default function DeviceModificationsPage() {
       title: 'Device',
       dataIndex: ['device', 'name'],
       key: 'device',
+      width: 150,
     },
     {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
+      width: 250,
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      width: 120,
       render: (status: string) => (
         <Tag
           color={
@@ -128,21 +130,25 @@ export default function DeviceModificationsPage() {
       title: 'Requester',
       dataIndex: ['requester', 'name'],
       key: 'requester',
+      width: 150,
     },
     {
       title: 'Engineer',
       dataIndex: ['engineer', 'name'],
       key: 'engineer',
+      width: 150,
     },
     {
       title: 'Date',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      width: 150,
       render: (date: string) => dayjs(date).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: 'Actions',
       key: 'actions',
+      width: 150,
       render: (record: ModificationWithRelations) => (
         <Space>
           {checkRole('ENGINEER') && record.status === 'PENDING' && (
@@ -166,8 +172,12 @@ export default function DeviceModificationsPage() {
   ]
 
   return (
-    <PageLayout layout="narrow">
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
+    <PageLayout layout="full-width">
+      <Space
+        direction="vertical"
+        style={{ width: '100%', padding: '24px 144px' }}
+        size="large"
+      >
         <div
           style={{
             display: 'flex',
@@ -185,14 +195,14 @@ export default function DeviceModificationsPage() {
           </Button>
         </div>
 
-        <Card>
-          <Table
-            columns={columns}
-            dataSource={modifications}
-            rowKey="id"
-            pagination={{ pageSize: 10 }}
-          />
-        </Card>
+        <Table
+          columns={columns}
+          dataSource={modifications}
+          rowKey="id"
+          pagination={{ pageSize: 10 }}
+          bordered
+          style={{ width: '100%' }}
+        />
 
         <Modal
           title="Create Modification Request"

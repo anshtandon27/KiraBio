@@ -189,6 +189,7 @@ export default function DeviceListingPage() {
         </Card>
 
         <Table
+          bordered
           columns={columns}
           dataSource={devices}
           rowKey="id"

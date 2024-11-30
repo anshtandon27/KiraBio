@@ -161,6 +161,7 @@ export default function CustomRequestsPage() {
             dataSource={requests}
             rowKey="id"
             pagination={{ pageSize: 10 }}
+            bordered
           />
         </Card>
 
