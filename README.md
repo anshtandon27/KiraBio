@@ -92,3 +92,7 @@ For any questions or support, feel free to [email us](mailto:ansht@seas.upenn.ed
 Thank you for using KiraBio! We hope this documentation helps you get started quickly and effectively.
 
 # KiraBio
+
+## Developed By
+
+The KiraBio platform was developed by **Ansh Tandon**, a student at the **University of Pennsylvania**.
