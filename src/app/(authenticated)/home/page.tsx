@@ -88,7 +88,6 @@ export default function HomePage() {
   const { data: pendingRequests, error: requestsError } =
     Api.customRequest.findMany.useQuery({
       where: {
-        requesterId: user?.id,
         status: 'Open',
       },
       take: 50,
