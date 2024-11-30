@@ -95,4 +95,4 @@ Thank you for using KiraBio! We hope this documentation helps you get started qu
 
 ## Developed By
 
-The KiraBio platform was developed by **Ansh Tandon**, a student at the **University of Pennsylvania**.
+The KiraBio platform was developed by [**Ansh Tandon**](https://linkedin.com/in/anshtandon/), a student at the **University of Pennsylvania**.
