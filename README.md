@@ -1,5 +1,9 @@
 <h1 align="center" style="margin: 0;">Welcome to KiraBio</h1>
 
+<p align="center">
+  <img src="/pwa/KiraBio Favicon.jpeg" alt="KiraBio Favicon" style="width: 100px; height: auto;" />
+</p>
+
 ## Introduction
 
 KiraBio is a specialized platform designed for the buying, selling, and renting of ultra-specialized medical devices used in rare conditions or unique research settings. Our mission is to connect researchers, healthcare professionals, and institutions with the necessary tools to advance medical research and improve patient care.
