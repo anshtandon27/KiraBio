@@ -1,0 +1,200 @@
+
+
+model Device {
+
+    id                String        @id @default(uuid())  
+    name            String          
+    category    String          
+    condition  String          
+    price          String          
+    specifications  Json?              
+    certifications  Json?              
+    status        String          
+
+sellerId    String          
+    seller        User?            @relation(fields: [sellerId], references: [id], name:"seller")  
+ 
+    transactions  Transaction[]  @relation("device")  
+    modifications  Modification[]  @relation("device")  
+    recalls      Recall[]    @relation("device")  
+    maintenances  Maintenance[]  @relation("device")  
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+model Transaction {
+
+    id                String        @id @default(uuid())  
+    type            String          
+    status        String          
+    amount        String          
+    shippingStatus  String?          
+    documentUrl  String?          
+
+buyerId      String          
+    buyer          User?            @relation(fields: [buyerId], references: [id], name:"buyer")  
+    deviceId    String          
+    device        Device?        @relation(fields: [deviceId], references: [id], name:"device")  
+ 
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+model CustomRequest {
+
+    id                String        @id @default(uuid())  
+    specifications  Json              
+    status        String          
+    description  String?          
+
+requesterId  String          
+    requester  User?            @relation(fields: [requesterId], references: [id], name:"requester")  
+    fabricatorId  String          
+    fabricator  User?            @relation(fields: [fabricatorId], references: [id], name:"fabricator")  
+ 
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+model Modification {
+
+    id                String        @id @default(uuid())  
+    description  String          
+    status        String          
+
+deviceId    String          
+    device        Device?        @relation(fields: [deviceId], references: [id], name:"device")  
+    requesterId  String          
+    requester  User?            @relation(fields: [requesterId], references: [id], name:"requester")  
+    engineerId  String          
+    engineer    User?            @relation(fields: [engineerId], references: [id], name:"engineer")  
+ 
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+model Recall {
+
+    id                String        @id @default(uuid())  
+    title          String          
+    description  String          
+    severity    String          
+
+deviceId    String          
+    device        Device?        @relation(fields: [deviceId], references: [id], name:"device")  
+    issuedById  String          
+    issuedBy    User?            @relation(fields: [issuedById], references: [id], name:"issuedBy")  
+ 
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+model Maintenance {
+
+    id                String        @id @default(uuid())  
+    description  String          
+    date            String          
+
+deviceId    String          
+    device        Device?        @relation(fields: [deviceId], references: [id], name:"device")  
+    performedById  String          
+    performedBy  User?            @relation(fields: [performedById], references: [id], name:"performedBy")  
+ 
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
+
+enum UserStatus {
+    INVITED
+    VERIFIED
+}
+
+model User {
+    id                String             @id @default(uuid())
+    name              String?
+    email             String?            @unique
+    pictureUrl        String?            @default('https://i.imgur.com/ZdJSK3Y.jpeg')
+    tokenInvitation   String?
+    emailVerified     Boolean?
+    
+    stripeCustomerId  String?
+    
+    status            UserStatus         @default(VERIFIED)
+
+    // this is the role of the user for the application
+    globalRole        String             @default('USER')
+    password          String?            @password @omit
+    createdAt         DateTime           @default(now())
+    updatedAt         DateTime           @updatedAt @default(now())
+    accounts          Account[]
+    sessions          Session[]
+
+pushNotifications PushNotification[] @relation("user")
+
+devicesAsSeller  Device[]    @relation("seller")  
+        transactionsAsBuyer  Transaction[]  @relation("buyer")  
+        customRequestsAsRequester  CustomRequest[]  @relation("requester")  
+        customRequestsAsFabricator  CustomRequest[]  @relation("fabricator")  
+        modificationsAsRequester  Modification[]  @relation("requester")  
+        modificationsAsEngineer  Modification[]  @relation("engineer")  
+        recallsAsIssuedBy  Recall[]    @relation("issuedBy")  
+        maintenancesAsPerformedBy  Maintenance[]  @relation("performedBy")  
+
+@@auth()
+    @@allow("all", auth().id == this.id)
+    @@allow('all', auth().globalRole == 'ADMIN')
+
+    //we only allow that user to register if they don't create an admin role
+    @@allow("create", globalRole != 'ADMIN')
+    @@allow("read", true)
+}
+
+model PushNotification {
+    id           String   @id @default(uuid())
+    endpoint     String
+    subscription String
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt @default(now())
+
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], name: 'user')
+
+@@allow("all", true)
+}
+
+model Account {
+    id                       String  @id @default(uuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
+    access_token             String? // @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refresh_token_expires_in Int?
+
+    @@unique([provider, providerAccountId])
+
+    @@allow("all", auth().id == user.id)
+}
+
+model Session {
+    id           String   @id @default(uuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@allow("all", auth().id == user.id)
+}
