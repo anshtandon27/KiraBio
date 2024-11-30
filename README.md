@@ -1,7 +1,7 @@
 <h1 align="center" style="margin: 0;">Welcome to KiraBio</h1>
 
 <p align="center">
-  <img src="/pwa/KiraBio Favicon.jpeg" alt="KiraBio Favicon" style="width: 100px; height: auto;" />
+  <img src="/public/pwa/KiraBio Favicon.jpeg" alt="KiraBio Favicon" style="width: 100px; height: auto;" />
 </p>
 
 ## Introduction
